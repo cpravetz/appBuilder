@@ -159,7 +159,7 @@ Schemas.eachSchema = new SimpleSchema({
 Schemas.eachSchema.extend(stepSchema);
 
 
-Schemas.buildDef = new SimpleSchema({
+Schemas.buildSchema = new SimpleSchema({
     appDefOverrides : {
         // Any configuration changes needed for this build Defintion
         // Some examples including hiding platforms options, setting
@@ -168,8 +168,11 @@ Schemas.buildDef = new SimpleSchema({
         optional : true,
         blackbox : true
     },
+    configuration : Array,
+    "configuration.$" : Schemas.fieldSchema;
     steps : Array,
     "steps.$" : SimpleSchema.oneOf([Schemas.createSchema, Schemas.executeSchema,
                                     Schemas.setSchema, Schemas.appendSchema,
                                     Schemas,replaceSchema, Schemas.ifSchema, Schemas.eachSchema]);
 });
+

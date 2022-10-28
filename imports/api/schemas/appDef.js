@@ -29,7 +29,7 @@ SimpleSchema.setDefaultMessages({
   },
 });
 
-
+// The configuration should be defined in the buildSchema and not as a fixed schema itself.
 Schemas.configurationSchema = new SimpleSchema({
     name : {
         // Used as folder name by the app constructor
@@ -125,7 +125,7 @@ Schemas.configurationSchema = new SimpleSchema({
         label: "Client start-up code",
         optional : true,
         autoform : {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -134,7 +134,7 @@ Schemas.configurationSchema = new SimpleSchema({
         label: "Server start-up code",
         optional : true,
         autoform : {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -186,7 +186,7 @@ Schemas.actionHookSchema = new SimpleSchema({
         type: String,
         optional : true,
         autoform : {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -194,7 +194,7 @@ Schemas.actionHookSchema = new SimpleSchema({
         type : String,
         optional : true,
         autoform : {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     }
@@ -223,14 +223,10 @@ Schemas.formFieldBuilder = new SimpleSchema({
     lookupQueryLabel : {type : String, optional : true},
 });
 
-Schema = new SimpleSchema({
-    name: String,
-    type : String,
+Schema.fieldSchema = new SimpleSchema({
     optional : SimpleSchema.oneOf(Boolean, String), //function
-    label : SimpleSchema.oneOf(String, String), //function
     regEx : SimpleSchema.oneOf(String, Array, String), //function
     "regEx.$" : { type : String, optional : true, label: 'RegEx'},
-    required : SimpleSchema.oneOf(Boolean, String), //function
     min : {
         type: SimpleSchema.oneOf(Number, Date, String), //function
         label: 'Minimum Value',
@@ -263,7 +259,7 @@ Schema = new SimpleSchema({
         type : String,
         optional : true,
         autoform : {
-            type : 'markdown',
+            type : 'code',
             rows : 6,
         }
     },
@@ -281,6 +277,7 @@ Schema = new SimpleSchema({
         //allowedValues: function() { return "collection names"}
     }
 });
+Schemas.fieldSchema.extend(Schemas.propertySchema);
 
 Schemas.schemaSchema = new SimpleSchema({
     fields: {type: Array, optional: true},
@@ -344,7 +341,7 @@ Schemas.publicationSchema = new SimpleSchema({
     run : {
         type: String,
         autoform: {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -356,7 +353,7 @@ Schemas.publicationSchema = new SimpleSchema({
     "tests.$" : {
         type: String,
         autoform: {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -368,7 +365,7 @@ Schemas.codeSchema = new SimpleSchema({
     code : {
         type: String,
         autoform: {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     }
@@ -390,7 +387,7 @@ Schemas.methodSchema = new SimpleSchema({
     runCode: {
         type: String,
         autoform: {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         },
         label: 'Run function'
@@ -399,7 +396,7 @@ Schemas.methodSchema = new SimpleSchema({
     "tests.$" : {
         type: String,
         autoform: {
-            //type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -494,6 +491,10 @@ Schemas.appSchema = new SimpleSchema({
             type: 'hidden'
         }
     },
+    configuration : {
+        type: object,
+        blackbox : true
+    },
     data : SimpleSchema.oneOf(Schemas.pubSubSchema),
     layouts : Array,
     "layouts.$" : Schemas.layoutSchema,
@@ -501,7 +502,6 @@ Schemas.appSchema = new SimpleSchema({
     "folders.$" : Schemas.folderSchema,
 });
 Schemas.appSchema.extend(Schemas.auditTrail);
-Schemas.appSchema.extend(Schemas.configurationSchema);
 
 
 export class AppDef extends BaseModel {

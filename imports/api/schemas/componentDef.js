@@ -40,7 +40,7 @@ Schemas.componentSchema = new SimpleSchema({
     children : Array,
     "children.$" : childRelationSchema,
     properties : Array,
-    "properties.$" : Schemas.childRelationSchema,
+    "properties.$" : Schemas.propertySchema,
     steps : Array,
     "steps.$" : SimpleSchema.oneOf([Schemas.createSchema, Schemas.executeSchema,
                                     Schemas.setSchema, Schemas.appendSchema,

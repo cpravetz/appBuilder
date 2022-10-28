@@ -12,7 +12,7 @@ Schemas.eventSchema = new SimpleSchema({
     code : {
         type: String,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     }
@@ -23,7 +23,7 @@ Schemas.helperSchema = new SimpleSchema({
     code : {
         type: String,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     }
@@ -34,7 +34,7 @@ Schemas.keyPairSchema = new SimpleSchema({
     value : {
         type: SimpleSchema.oneOf(String, String), //function
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     }
@@ -45,6 +45,8 @@ Schemas.parameterSchema = new SimpleSchema({
     "parameters.$" : Schemas.keyPairSchema
 });
 
+
+//These component definitions could probably be defined using the componentSchema
 Schemas.componentCoreSchema = new SimpleSchema({
     name : String,
     title : String,
@@ -60,7 +62,7 @@ Schemas.componentCoreSchema = new SimpleSchema({
         label : 'on Created Code',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -69,7 +71,7 @@ Schemas.componentCoreSchema = new SimpleSchema({
         label : 'on Rendered Code',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -78,7 +80,7 @@ Schemas.componentCoreSchema = new SimpleSchema({
         label : 'on Destroyed Code',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -87,7 +89,7 @@ Schemas.componentCoreSchema = new SimpleSchema({
         label : 'Visibiity logic',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -99,6 +101,7 @@ Schemas.componentCoreSchema = new SimpleSchema({
 { tracker: Tracker }
 );
 
+
 Schemas.subscriptionSchema = new SimpleSchema({
     publication : String
 });
@@ -106,6 +109,7 @@ Schemas.subscriptionSchema.extend(Schemas.parameterSchema);
 
 Schemas.paragraphSchema = new SimpleSchema({
 });
+
 Schemas.paragraphSchema.extend(Schemas.componentCoreSchema);
 Schemas.paragraphSchema.extend({type : { type: String, autoValue: "paragraph"}});
 
@@ -116,7 +120,7 @@ Schemas.coreDataAwareComponentSchema = new SimpleSchema({
         label : 'Custom Data Code',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -125,7 +129,7 @@ Schemas.coreDataAwareComponentSchema = new SimpleSchema({
         label : 'Before Subscription Code',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -161,7 +165,7 @@ Schemas.formSchema = new SimpleSchema({
         label : 'On Submit Code ',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -170,7 +174,7 @@ Schemas.formSchema = new SimpleSchema({
         label : 'On Cancel Code ',
         optional: true,
         autoform: {
-            type: 'markdown',
+            type: 'code',
             rows : 6
         }
     },
@@ -191,13 +195,14 @@ Schemas.divSchema.extend(Schemas.childrenSchema);
 Schemas.divSchema.extend({type : { type: String, autoValue: "div"}});
 
 Schemas.chartSchema = new SimpleSchema({
-    //TODO Get D3 stuff in here
+    //TODO Get graph defining stuff in here
 });
 Schemas.chartSchema.extend(Schemas.componentCoreSchema);
 Schemas.chartSchema.extend(Schemas.childrenSchema);
 Schemas.chartSchema.extend({type : { type: String, autoValue: "chart"}});
 
 
+// Layouts define the structure of a page as presented to the user
 Schemas.layoutSchema = new SimpleSchema({
     appName : String,
     homeRoute : String,
@@ -252,4 +257,3 @@ Schemas.fieldSchema = new SimpleSchema({
     fieldName : String,
     defOverride : {type : Object, blackbox : true}
 });
-
